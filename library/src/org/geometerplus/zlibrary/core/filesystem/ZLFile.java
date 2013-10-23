@@ -75,7 +75,7 @@ public abstract class ZLFile {
 
 	public static ZLFile createFile(ZLFile parent, String name) {
 		ZLFile file = null;
-/*		if (parent == null) {
+		if (parent == null) {
 			ZLFile cached = ourCachedFiles.get(name);
 			if (cached != null) {
 				return cached;
@@ -100,7 +100,7 @@ public abstract class ZLFile {
 				return cached;
 			}
 		}
-*/		return file;
+		return file;
 	}
 
 	public static ZLFile createFileByUrl(String url) {
@@ -111,7 +111,7 @@ public abstract class ZLFile {
 	}
 
 	public static ZLFile createFileByPath(String path) {
-/*		if (path == null) {
+		if (path == null) {
 			return null;
 		}
 		ZLFile cached = ourCachedFiles.get(path);
@@ -132,7 +132,6 @@ public abstract class ZLFile {
 			);
 		}
 		return new ZLPhysicalFile(path);
-*/	return null;
 	}
 
 	public abstract long size();
@@ -140,7 +139,7 @@ public abstract class ZLFile {
 	public abstract boolean isDirectory();
 	public abstract String getPath();
 	public abstract ZLFile getParent();
-//	public abstract ZLPhysicalFile getPhysicalFile();
+	public abstract ZLPhysicalFile getPhysicalFile();
 	public abstract InputStream getInputStream() throws IOException;
 
 	public String getUrl() {
@@ -174,14 +173,14 @@ public abstract class ZLFile {
 	}
 
 	public final List<ZLFile> children() {
-/*		if (exists()) {
+		if (exists()) {
 			if (isDirectory()) {
 				return directoryEntries();
 			} else if (isArchive()) {
 				return ZLArchiveEntryFile.archiveEntries(this);
 			}
 		}
-*/		return Collections.emptyList();
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -210,7 +209,7 @@ public abstract class ZLFile {
 	}
 
 	public void setCached(boolean cached) {
-/*		myIsCached = cached;
+		myIsCached = cached;
 		if (cached) {
 			ourCachedFiles.put(getPath(), this);
 		} else {
@@ -219,5 +218,5 @@ public abstract class ZLFile {
 				ZLZipEntryFile.removeFromCache(this);
 			}
 		}
-*/	}
+	}
 }

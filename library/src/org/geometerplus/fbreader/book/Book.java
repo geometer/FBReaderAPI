@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.*;
 
-//import org.geometerplus.zlibrary.core.filesystem.*;
+import org.geometerplus.zlibrary.core.filesystem.*;
 //import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.resources.ZLResource;
 //import org.geometerplus.zlibrary.core.util.MiscUtil;
@@ -40,7 +40,7 @@ public class Book extends TitledEntity {
 	public static final String FAVORITE_LABEL = "favorite";
 	public static final String READ_LABEL = "read";
 
-	public final String File;
+	public final ZLFile File;
 
 	private volatile long myId;
 
@@ -59,13 +59,17 @@ public class Book extends TitledEntity {
 //	private static final WeakReference<ZLImage> NULL_IMAGE = new WeakReference<ZLImage>(null);
 //	private WeakReference<ZLImage> myCover;
 
-	Book(long id, String file, String title, String encoding, String language) {
+	Book(long id, ZLFile file, String title, String encoding, String language) {
 		super(title);
 		myId = id;
 		File = file;
 		myEncoding = encoding;
 		myLanguage = language;
 		myIsSaved = true;
+	}
+
+	public String getFileName(){
+		return File.getShortName();
 	}
 
 /*	Book(ZLFile file) throws BookReadingException {
