@@ -537,6 +537,7 @@ public class XMLSerializer extends AbstractSerializer {
 						// TODO: use "rel" attribute
 						myUrl = attributes.getValue("href");
 					} else {
+						System.out.println("localName = "+localName);
 						throw new SAXException("Unexpected tag " + localName);
 					}
 					break;

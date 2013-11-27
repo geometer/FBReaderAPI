@@ -34,7 +34,7 @@ public abstract class ZLFile {
 		int	TAR = 0x0200;
 		int	ARCHIVE = 0xff00;
 	};
-
+	private long mySize;
 	private String myExtension;
 	private String myShortName;
 	protected int myArchiveType;
@@ -44,7 +44,7 @@ public abstract class ZLFile {
 		final int index = name.lastIndexOf('.');
 		myExtension = (index > 0) ? name.substring(index + 1).toLowerCase().intern() : "";
 		myShortName = name.substring(name.lastIndexOf('/') + 1);
-
+		mySize = size();
 		/*
 		if (lowerCaseName.endsWith(".gz")) {
 			myNameWithoutExtension = myNameWithoutExtension.substring(0, myNameWithoutExtension.length() - 3);
@@ -159,6 +159,10 @@ public abstract class ZLFile {
 	}
 
 	public abstract String getLongName();
+	
+	public long getCachedFileSize(){
+		return mySize;
+	}
 
 	public final String getShortName() {
 		return myShortName;

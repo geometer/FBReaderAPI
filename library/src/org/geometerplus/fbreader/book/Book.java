@@ -71,6 +71,9 @@ public class Book extends TitledEntity {
 	public String getFileName(){
 		return File.getShortName();
 	}
+	public long getFileSize(){
+		return File.getCachedFileSize();
+	}
 
 /*	Book(ZLFile file) throws BookReadingException {
 		super(null);
