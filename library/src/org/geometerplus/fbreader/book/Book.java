@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.*;
 
-import org.geometerplus.zlibrary.core.filesystem.*;
+//import org.geometerplus.zlibrary.core.filesystem.*;
 //import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.resources.ZLResource;
 //import org.geometerplus.zlibrary.core.util.MiscUtil;
@@ -40,7 +40,7 @@ public class Book extends TitledEntity {
 	public static final String FAVORITE_LABEL = "favorite";
 	public static final String READ_LABEL = "read";
 
-	public final ZLFile File;
+	public final String FileUrl;
 
 	private volatile long myId;
 
@@ -59,20 +59,13 @@ public class Book extends TitledEntity {
 //	private static final WeakReference<ZLImage> NULL_IMAGE = new WeakReference<ZLImage>(null);
 //	private WeakReference<ZLImage> myCover;
 
-	Book(long id, ZLFile file, String title, String encoding, String language) {
+	Book(long id, String fileUrl, String title, String encoding, String language) {
 		super(title);
 		myId = id;
-		File = file;
+		FileUrl = fileUrl;
 		myEncoding = encoding;
 		myLanguage = language;
 		myIsSaved = true;
-	}
-
-	public String getFileName(){
-		return File.getShortName();
-	}
-	public long getFileSize(){
-		return File.getCachedFileSize();
 	}
 
 /*	Book(ZLFile file) throws BookReadingException {
@@ -538,13 +531,13 @@ public class Book extends TitledEntity {
 		if (!(o instanceof Book)) {
 			return false;
 		}
-		return File.equals(((Book)o).File);
+		return FileUrl.equals(((Book)o).FileUrl);
 	}
 
 	@Override
 	public String toString() {
 		return new StringBuilder("Book[")
-			.append(File)
+			.append(FileUrl)
 			.append(", ")
 			.append(myId)
 			.append("]")

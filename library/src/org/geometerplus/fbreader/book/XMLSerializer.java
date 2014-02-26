@@ -222,7 +222,7 @@ public class XMLSerializer extends AbstractSerializer {
 		
 		appendTag(
 			buffer, "link", true,
-			"href", (book.File != null) ? book.File.getUrl() : "",
+			"href", book.FileUrl,
 			// TODO: real book mimetype
 			"type", "application/epub+zip",
 			"rel", "http://opds-spec.org/acquisition"
@@ -471,7 +471,7 @@ public class XMLSerializer extends AbstractSerializer {
 			}
 			myBook = new Book(
 				myId,
-				ZLFile.createFileByUrl(myUrl),
+				myUrl,
 				string(myTitle),
 				string(myEncoding),
 				string(myLanguage)
