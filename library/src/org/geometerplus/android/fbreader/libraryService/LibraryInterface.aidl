@@ -8,7 +8,7 @@ import java.util.List;
 import org.geometerplus.android.fbreader.api.TextPosition;
 
 interface LibraryInterface {
-	void reset(in List<String> bookDirectories, in boolean force);
+	void reset(in boolean force);
 
 	String status();
 
@@ -31,7 +31,7 @@ interface LibraryInterface {
 	List<String> titles(in String query);
 	List<String> firstTitleLetters();
 
-	boolean saveBook(in String book, in boolean force);
+	boolean saveBook(in String book);
 	void removeBook(in String book, in boolean deleteFromDisk);
 	void addBookToRecentList(in String book);
 
@@ -40,7 +40,7 @@ interface LibraryInterface {
 
 	boolean isHyperlinkVisited(in String book, in String linkId);
 	void markHyperlinkAsVisited(in String book, in String linkId);
-	
+
 	boolean saveCover(in String book, in String url);
 
 	List<String> bookmarks(in String query);
@@ -50,4 +50,6 @@ interface LibraryInterface {
 	String getHighlightingStyle(in int styleId);
 	List<String> highlightingStyles();
 	void saveHighlightingStyle(in String style);
+
+	void rescan(in String path);
 }

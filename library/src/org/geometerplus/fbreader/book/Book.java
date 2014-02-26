@@ -21,17 +21,13 @@ package org.geometerplus.fbreader.book;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.util.*;
 
 //import org.geometerplus.zlibrary.core.filesystem.*;
 //import org.geometerplus.zlibrary.core.image.ZLImage;
-//import org.geometerplus.zlibrary.core.resources.ZLResource;
-//import org.geometerplus.zlibrary.core.util.MiscUtil;
+import org.geometerplus.zlibrary.core.util.MiscUtil;
+import org.geometerplus.zlibrary.core.util.RationalNumber;
 
-//import org.geometerplus.zlibrary.text.view.ZLTextPosition;
-
-//import org.geometerplus.fbreader.Paths;
 //import org.geometerplus.fbreader.bookmodel.BookReadingException;
 //import org.geometerplus.fbreader.formats.*;
 import org.geometerplus.fbreader.sort.TitledEntity;
@@ -51,16 +47,20 @@ public class Book extends TitledEntity {
 	private volatile List<String> myLabels;
 	private volatile SeriesInfo mySeriesInfo;
 	private volatile List<UID> myUids;
+	private volatile RationalNumber myProgress;
 
 	public volatile boolean HasBookmark;
 
 	private volatile boolean myIsSaved;
 
-//	private static final WeakReference<ZLImage> NULL_IMAGE = new WeakReference<ZLImage>(null);
-//	private WeakReference<ZLImage> myCover;
+	//private static final WeakReference<ZLImage> NULL_IMAGE = new WeakReference<ZLImage>(null);
+	//private WeakReference<ZLImage> myCover;
 
 	Book(long id, String fileUrl, String title, String encoding, String language) {
 		super(title);
+		if (fileUrl == null) {
+			throw new IllegalArgumentException("Creating book with no file");
+		}
 		myId = id;
 		FileUrl = fileUrl;
 		myEncoding = encoding;
@@ -68,29 +68,51 @@ public class Book extends TitledEntity {
 		myIsSaved = true;
 	}
 
-/*	Book(ZLFile file) throws BookReadingException {
+	/*
+	Book(ZLFile file) throws BookReadingException {
 		super(null);
+		if (file == null) {
+			throw new IllegalArgumentException("Creating book with no file");
+		}
 		myId = -1;
 		final FormatPlugin plugin = getPlugin(file);
 		File = plugin.realBookFile(file);
 		readMetaInfo(plugin);
 		myIsSaved = false;
 	}
-*/
+	*/
+
 	public void updateFrom(Book book) {
-		if (myId != book.myId) {
+		if (book == null || myId != book.myId) {
 			return;
 		}
 		setTitle(book.getTitle());
-		myEncoding = book.myEncoding;
-		myLanguage = book.myLanguage;
-		myAuthors = book.myAuthors != null ? new ArrayList<Author>(book.myAuthors) : null;
-		myTags = book.myTags != null ? new ArrayList<Tag>(book.myTags) : null;
-		myLabels = book.myLabels != null ? new ArrayList<String>(book.myLabels) : null;
-		mySeriesInfo = book.mySeriesInfo;
-		HasBookmark = book.HasBookmark;
+		setEncoding(book.myEncoding);
+		setLanguage(book.myLanguage);
+		if (!MiscUtil.equals(myAuthors, book.myAuthors)) {
+			myAuthors = book.myAuthors != null ? new ArrayList<Author>(book.myAuthors) : null;
+			myIsSaved = false;
+		}
+		if (!MiscUtil.equals(myTags, book.myTags)) {
+			myTags = book.myTags != null ? new ArrayList<Tag>(book.myTags) : null;
+			myIsSaved = false;
+		}
+		if (!MiscUtil.equals(myLabels, book.myLabels)) {
+			myLabels = book.myLabels != null ? new ArrayList<String>(book.myLabels) : null;
+			myIsSaved = false;
+		}
+		if (!MiscUtil.equals(mySeriesInfo, book.mySeriesInfo)) {
+			mySeriesInfo = book.mySeriesInfo;
+			myIsSaved = false;
+		}
+		setProgress(book.myProgress);
+		if (HasBookmark != book.HasBookmark) {
+			HasBookmark = book.HasBookmark;
+			myIsSaved = false;
+		}
 	}
-/*
+
+	/*
 	public void reloadInfoFromFile() {
 		try {
 			readMetaInfo();
@@ -121,7 +143,6 @@ public class Book extends TitledEntity {
 		setTitle(null);
 		myAuthors = null;
 		myTags = null;
-		myLabels = null;
 		mySeriesInfo = null;
 		myUids = null;
 
@@ -137,12 +158,6 @@ public class Book extends TitledEntity {
 			final int index = fileName.lastIndexOf('.');
 			setTitle(index > 0 ? fileName.substring(0, index) : fileName);
 		}
-		final String demoPathPrefix = Paths.mainBookDirectory() + "/Demos/";
-		if (File.getPath().startsWith(demoPathPrefix)) {
-			final String demoTag = ZLResource.resource("library").getResource("demo").getValue();
-			setTitle(getTitle() + " (" + demoTag + ")");
-			addTag(demoTag);
-		}
 	}
 
 	void loadLists(BooksDatabase database) {
@@ -151,6 +166,7 @@ public class Book extends TitledEntity {
 		myLabels = database.listLabels(myId);
 		mySeriesInfo = database.getSeriesInfo(myId);
 		myUids = database.listUids(myId);
+		myProgress = database.getProgress(myId);
 		HasBookmark = database.hasVisibleBookmark(myId);
 		myIsSaved = true;
 		if (myUids == null || myUids.isEmpty()) {
@@ -164,7 +180,8 @@ public class Book extends TitledEntity {
 			}
 		}
 	}
-*/
+	*/
+
 	public List<Author> authors() {
 		return (myAuthors != null) ? Collections.unmodifiableList(myAuthors) : Collections.<Author>emptyList();
 	}
@@ -230,6 +247,7 @@ public class Book extends TitledEntity {
 		return myId;
 	}
 
+	@Override
 	public void setTitle(String title) {
 		if (!getTitle().equals(title)) {
 			super.setTitle(title);
@@ -264,10 +282,11 @@ public class Book extends TitledEntity {
 		}
 	}
 
+	@Override
 	public String getLanguage() {
 		return myLanguage;
 	}
-/*
+
 	public void setLanguage(String language) {
 		if (!MiscUtil.equals(myLanguage, language)) {
 			myLanguage = language;
@@ -276,6 +295,7 @@ public class Book extends TitledEntity {
 		}
 	}
 
+	/*
 	public String getEncoding() {
 		if (myEncoding == null) {
 			try {
@@ -288,18 +308,19 @@ public class Book extends TitledEntity {
 		}
 		return myEncoding;
 	}
-*/
+	*/
+
 	public String getEncodingNoDetection() {
 		return myEncoding;
 	}
 
-/*	public void setEncoding(String encoding) {
+	public void setEncoding(String encoding) {
 		if (!MiscUtil.equals(myEncoding, encoding)) {
 			myEncoding = encoding;
 			myIsSaved = false;
 		}
 	}
-*/
+
 	public List<Tag> tags() {
 		return myTags != null ? Collections.unmodifiableList(myTags) : Collections.<Tag>emptyList();
 	}
@@ -396,7 +417,22 @@ public class Book extends TitledEntity {
 		return myUids.contains(uid);
 	}
 
-/*	public boolean matches(String pattern) {
+	public RationalNumber getProgress() {
+		return myProgress;
+	}
+
+	public void setProgress(RationalNumber progress) {
+		if (!MiscUtil.equals(myProgress, progress)) {
+			myProgress = progress;
+			myIsSaved = false;
+		}
+	}
+	
+	public void setProgressWithNoCheck(RationalNumber progress) {
+		myProgress = progress;
+	}
+
+	public boolean matches(String pattern) {
 		if (MiscUtil.matchesIgnoreCase(getTitle(), pattern)) {
 			return true;
 		}
@@ -417,12 +453,13 @@ public class Book extends TitledEntity {
 				}
 			}
 		}
-		if (MiscUtil.matchesIgnoreCase(File.getLongName(), pattern)) {
+		if (MiscUtil.matchesIgnoreCase(FileUrl, pattern)) {
 			return true;
 		}
 		return false;
 	}
 
+	/*
 	boolean save(final BooksDatabase database, boolean force) {
 		if (!force && myId != -1 && myIsSaved) {
 			return false;
@@ -466,6 +503,9 @@ public class Book extends TitledEntity {
 				database.deleteAllBookUids(myId);
 				for (UID uid : uids()) {
 					database.saveBookUid(myId, uid);
+				}
+				if (myProgress != null) {
+					database.saveBookProgress(myId, myProgress);
 				}
 			}
 		});
@@ -517,10 +557,11 @@ public class Book extends TitledEntity {
 		myCover = image != null ? new WeakReference<ZLImage>(image) : NULL_IMAGE;
 		return image;
 	}
-*/
+	*/
+
 	@Override
 	public int hashCode() {
-		return (int)myId;
+		return FileUrl.hashCode();
 	}
 
 	@Override
@@ -531,7 +572,24 @@ public class Book extends TitledEntity {
 		if (!(o instanceof Book)) {
 			return false;
 		}
-		return FileUrl.equals(((Book)o).FileUrl);
+		final Book obook = ((Book)o);
+		final String ofileUrl = obook.FileUrl;
+		if (FileUrl.equals(ofileUrl)) {
+			return true;
+		}
+		// TODO: compare last parts
+		//if (!File.getShortName().equals(ofile.getShortName())) {
+		//	return false;
+		//}
+		if (myUids == null || obook.myUids == null) {
+			return false;
+		}
+		for (UID uid : obook.myUids) {
+			if (myUids.contains(uid)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -540,6 +598,8 @@ public class Book extends TitledEntity {
 			.append(FileUrl)
 			.append(", ")
 			.append(myId)
+			.append(", ")
+			.append(getTitle())
 			.append("]")
 			.toString();
 	}

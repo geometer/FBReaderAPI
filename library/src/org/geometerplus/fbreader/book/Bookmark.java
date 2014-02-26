@@ -31,8 +31,93 @@ public final class Bookmark extends ZLTextFixedPosition {
 		Latest
 	}
 
+	/*
+	public static Bookmark createBookmark(Book book, String modelId, ZLTextWordCursor startCursor, int maxWords, boolean isVisible) {
+		final ZLTextWordCursor cursor = new ZLTextWordCursor(startCursor);
+
+		final Buffer buffer = new Buffer(cursor);
+		final Buffer sentenceBuffer = new Buffer(cursor);
+		final Buffer phraseBuffer = new Buffer(cursor);
+
+		int wordCounter = 0;
+		int sentenceCounter = 0;
+		int storedWordCounter = 0;
+		boolean lineIsNonEmpty = false;
+		boolean appendLineBreak = false;
+mainLoop:
+		while (wordCounter < maxWords && sentenceCounter < 3) {
+			while (cursor.isEndOfParagraph()) {
+				if (!cursor.nextParagraph()) {
+					break mainLoop;
+				}
+				if (!buffer.isEmpty() && cursor.getParagraphCursor().isEndOfSection()) {
+					break mainLoop;
+				}
+				if (!phraseBuffer.isEmpty()) {
+					sentenceBuffer.append(phraseBuffer);
+				}
+				if (!sentenceBuffer.isEmpty()) {
+					if (appendLineBreak) {
+						buffer.append("\n");
+					}
+					buffer.append(sentenceBuffer);
+					++sentenceCounter;
+					storedWordCounter = wordCounter;
+				}
+				lineIsNonEmpty = false;
+				if (!buffer.isEmpty()) {
+					appendLineBreak = true;
+				}
+			}
+			final ZLTextElement element = cursor.getElement();
+			if (element instanceof ZLTextWord) {
+				final ZLTextWord word = (ZLTextWord)element;
+				if (lineIsNonEmpty) {
+					phraseBuffer.append(" ");
+				}
+				phraseBuffer.Builder.append(word.Data, word.Offset, word.Length);
+				phraseBuffer.Cursor.setCursor(cursor);
+				phraseBuffer.Cursor.setCharIndex(word.Length);
+				++wordCounter;
+				lineIsNonEmpty = true;
+				switch (word.Data[word.Offset + word.Length - 1]) {
+					case ',':
+					case ':':
+					case ';':
+					case ')':
+						sentenceBuffer.append(phraseBuffer);
+						break;
+					case '.':
+					case '!':
+					case '?':
+						++sentenceCounter;
+						if (appendLineBreak) {
+							buffer.append("\n");
+							appendLineBreak = false;
+						}
+						sentenceBuffer.append(phraseBuffer);
+						buffer.append(sentenceBuffer);
+						storedWordCounter = wordCounter;
+						break;
+				}
+			}
+			cursor.nextWord();
+		}
+		if (storedWordCounter < 4) {
+			if (sentenceBuffer.isEmpty()) {
+				sentenceBuffer.append(phraseBuffer);
+			}
+			if (appendLineBreak) {
+				buffer.append("\n");
+			}
+			buffer.append(sentenceBuffer);
+		}
+		return new Bookmark(book, modelId, startCursor, buffer.Cursor, buffer.Builder.toString(), isVisible);
+	}
+	*/
+
 	private long myId;
-	private long myBookId;
+	private final long myBookId;
 	private final String myBookTitle;
 	private String myText;
 	private final Date myCreationDate;
@@ -40,8 +125,8 @@ public final class Bookmark extends ZLTextFixedPosition {
 	private Date myAccessDate;
 	private int myAccessCount;
 	private Date myLatestDate;
-	ZLTextFixedPosition myEnd;
-	int myLength;
+	private ZLTextFixedPosition myEnd;
+	private int myLength;
 	private int myStyleId;
 
 	public final String ModelId;
@@ -97,6 +182,48 @@ public final class Bookmark extends ZLTextFixedPosition {
 		myEnd = new ZLTextFixedPosition(end);
 		myStyleId = 1;
 	}
+
+	/*
+	public void findEnd(ZLTextView view) {
+		if (myEnd != null) {
+			return;
+		}
+		ZLTextWordCursor cursor = view.getStartCursor();
+		if (cursor.isNull()) {
+			cursor = view.getEndCursor();
+		}
+		if (cursor.isNull()) {
+			return;
+		}
+		cursor = new ZLTextWordCursor(cursor);
+		cursor.moveTo(this);
+
+		ZLTextWord word = null;
+mainLoop:
+		for (int count = myLength; count > 0; cursor.nextWord()) {
+			while (cursor.isEndOfParagraph()) {
+				if (!cursor.nextParagraph()) {
+					break mainLoop;
+				}
+			}
+			final ZLTextElement element = cursor.getElement();
+			if (element instanceof ZLTextWord) {
+				if (word != null) {
+					--count;
+				}
+				word = (ZLTextWord)element;
+				count -= word.Length;
+			}
+		}
+		if (word != null) {
+			myEnd = new ZLTextFixedPosition(
+				cursor.getParagraphIndex(),
+				cursor.getElementIndex(),
+				word.Length
+			);
+		}
+	}
+	*/
 
 	public long getId() {
 		return myId;
@@ -173,7 +300,7 @@ public final class Bookmark extends ZLTextFixedPosition {
 		}
 	}
 
-	public void setId(long id) {
+	void setId(long id) {
 		myId = id;
 	}
 
@@ -184,7 +311,28 @@ public final class Bookmark extends ZLTextFixedPosition {
 		}
 	}
 
-	public void setBookId(long id) {
-		myBookId = id;
+	/*
+	private static class Buffer {
+		final StringBuilder Builder = new StringBuilder();
+		final ZLTextWordCursor Cursor;
+
+		Buffer(ZLTextWordCursor cursor) {
+			Cursor = new ZLTextWordCursor(cursor);
+		}
+
+		boolean isEmpty() {
+			return Builder.length() == 0;
+		}
+
+		void append(Buffer buffer) {
+			Builder.append(buffer.Builder);
+			Cursor.setCursor(buffer.Cursor);
+			buffer.Builder.delete(0, buffer.Builder.length());
+		}
+
+		void append(CharSequence data) {
+			Builder.append(data);
+		}
 	}
+	*/
 }

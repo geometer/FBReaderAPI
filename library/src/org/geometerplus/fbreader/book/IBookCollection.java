@@ -70,7 +70,7 @@ public interface IBookCollection {
 	List<Tag> tags();
 	List<String> firstTitleLetters();
 
-	boolean saveBook(Book book, boolean force);
+	boolean saveBook(Book book);
 	void removeBook(Book book, boolean deleteFromDisk);
 
 	ZLTextPosition getStoredPosition(long bookId);
@@ -78,14 +78,16 @@ public interface IBookCollection {
 
 	boolean isHyperlinkVisited(Book book, String linkId);
 	void markHyperlinkAsVisited(Book book, String linkId);
-	
-	boolean saveCover(Book book, String url);
 
+	boolean saveCover(Book book, String url);
+	
 	List<Bookmark> bookmarks(BookmarkQuery query);
 	void saveBookmark(Bookmark bookmark);
 	void deleteBookmark(Bookmark bookmark);
 
-//	HighlightingStyle getHighlightingStyle(int styleId);
-//	List<HighlightingStyle> highlightingStyles();
-//	void saveHighlightingStyle(HighlightingStyle style);
+	//HighlightingStyle getHighlightingStyle(int styleId);
+	//List<HighlightingStyle> highlightingStyles();
+	//void saveHighlightingStyle(HighlightingStyle style);
+
+	void rescan(String path);
 }

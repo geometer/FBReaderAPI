@@ -27,22 +27,20 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+//import org.geometerplus.zlibrary.core.options.Config;
 
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
-import org.geometerplus.android.fbreader.api.TextPosition;
 //import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.*;
 
-public class BookCollectionShadow extends AbstractBookCollection implements ServiceConnection {
-	static final String BOOK_EVENT_ACTION = "fbreader.library-service.book-event";
-	static final String BUILD_EVENT_ACTION = "fbreader.library-service.build-event";
-	static final String INTENT_ACTION = "android.fbreader.action.LIBRARY_SERVICE";
+import org.geometerplus.android.fbreader.api.TextPosition;
 
+public class BookCollectionShadow extends AbstractBookCollection implements ServiceConnection {
 	private Context myContext;
-	public volatile LibraryInterface myInterface;
-	private Runnable myOnBindAction;
+	private volatile LibraryInterface myInterface;
+	private final List<Runnable> myOnBindActions = new LinkedList<Runnable>();
 
 	private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
@@ -52,7 +50,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 
 			try {
 				final String type = intent.getStringExtra("type");
-				if (BOOK_EVENT_ACTION.equals(intent.getAction())) {
+				if (LibraryService.BOOK_EVENT_ACTION.equals(intent.getAction())) {
 					final Book book = SerializerUtil.deserializeBook(intent.getStringExtra("book"));
 					fireBookEvent(BookEvent.valueOf(type), book);
 				} else {
@@ -64,30 +62,19 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	};
 
-	private static Runnable combined(final Runnable action0, final Runnable action1) {
-		if (action0 == null) {
-			return action1;
-		}
-		if (action1 == null) {
-			return action0;
-		}
-		return new Runnable() {
-			public void run() {
-				action0.run();
-				action1.run();
-			}
-		};
-	}
-
 	public synchronized void bindToService(Context context, Runnable onBindAction) {
 		if (myInterface != null && myContext == context) {
 			if (onBindAction != null) {
+				//Config.Instance().runOnStart(onBindAction);
 				onBindAction.run();
 			}
 		} else {
-			myOnBindAction = combined(myOnBindAction, onBindAction);
+			if (onBindAction != null) {
+				myOnBindActions.add(onBindAction);
+			}
 			context.bindService(
-				new Intent(INTENT_ACTION),
+				//new Intent(context, LibraryService.class),
+				new Intent("android.fbreader.action.LIBRARY_SERVICE"),
 				this,
 				Service.BIND_AUTO_CREATE
 			);
@@ -111,18 +98,16 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			myContext = null;
 		}
 	}
-/*
+
 	public synchronized void reset(boolean force) {
 		if (myInterface != null) {
 			try {
-				myInterface.reset(
-					Collections.singletonList(Paths.BooksDirectoryOption().getValue()), force
-				);
+				myInterface.reset(force);
 			} catch (RemoteException e) {
 			}
 		}
 	}
-*/
+
 	public synchronized int size() {
 		if (myInterface == null) {
 			return 0;
@@ -185,11 +170,12 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		try {
 			return SerializerUtil.deserializeBook(myInterface.getRecentBook(index));
 		} catch (RemoteException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 
-/*
+	/*
 	public synchronized Book getBookByFile(ZLFile file) {
 		if (myInterface == null) {
 			return null;
@@ -200,7 +186,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			return null;
 		}
 	}
-*/
+	*/
 
 	public synchronized Book getBookById(long id) {
 		if (myInterface == null) {
@@ -299,12 +285,12 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
-	public synchronized boolean saveBook(Book book, boolean force) {
+	public synchronized boolean saveBook(Book book) {
 		if (myInterface == null) {
 			return false;
 		}
 		try {
-			return myInterface.saveBook(SerializerUtil.serialize(book), force);
+			return myInterface.saveBook(SerializerUtil.serialize(book));
 		} catch (RemoteException e) {
 			return false;
 		}
@@ -401,7 +387,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			return false;
 		}
 	}
-	
+
 	public synchronized List<Bookmark> bookmarks(BookmarkQuery query) {
 		if (myInterface == null) {
 			return Collections.emptyList();
@@ -434,8 +420,9 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			}
 		}
 	}
-/*
-	public HighlightingStyle getHighlightingStyle(int styleId) {
+
+	/*
+	public synchronized HighlightingStyle getHighlightingStyle(int styleId) {
 		if (myInterface == null) {
 			return null;
 		}
@@ -446,7 +433,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
-	public List<HighlightingStyle> highlightingStyles() {
+	public synchronized List<HighlightingStyle> highlightingStyles() {
 		if (myInterface == null) {
 			return Collections.emptyList();
 		}
@@ -456,21 +443,47 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			return Collections.emptyList();
 		}
 	}
-*/
+
+	public synchronized void saveHighlightingStyle(HighlightingStyle style) {
+		if (myInterface != null) {
+			try {
+				myInterface.saveHighlightingStyle(SerializerUtil.serialize(style));
+			} catch (RemoteException e) {
+				// ignore
+			}
+		}
+	}
+	*/
+
+	public synchronized void rescan(String path) {
+		if (myInterface != null) {
+			try {
+				myInterface.rescan(path);
+			} catch (RemoteException e) {
+				// ignore
+			}
+		}
+	}
+
 	// method from ServiceConnection interface
 	public synchronized void onServiceConnected(ComponentName name, IBinder service) {
 		myInterface = LibraryInterface.Stub.asInterface(service);
-		if (myOnBindAction != null) {
-			myOnBindAction.run();
-			myOnBindAction = null;
+		while (!myOnBindActions.isEmpty()) {
+			//Config.Instance().runOnStart(myOnBindActions.remove(0));
+			myOnBindActions.remove(0).run();
 		}
 		if (myContext != null) {
-			myContext.registerReceiver(myReceiver, new IntentFilter(BOOK_EVENT_ACTION));
-			myContext.registerReceiver(myReceiver, new IntentFilter(BUILD_EVENT_ACTION));
+			myContext.registerReceiver(myReceiver, new IntentFilter(LibraryService.BOOK_EVENT_ACTION));
+			myContext.registerReceiver(myReceiver, new IntentFilter(LibraryService.BUILD_EVENT_ACTION));
 		}
 	}
 
 	// method from ServiceConnection interface
 	public synchronized void onServiceDisconnected(ComponentName name) {
 	}
+}
+
+class LibraryService {
+	static final String BOOK_EVENT_ACTION = "fbreader.library_service.book_event";
+	static final String BUILD_EVENT_ACTION = "fbreader.library_service.build_event";
 }

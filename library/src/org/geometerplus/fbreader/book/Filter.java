@@ -78,7 +78,7 @@ public abstract class Filter {
 		}
 
 		public boolean matches(Book book) {
-			return book != null && !"".equals(Pattern); // && book.matches(Pattern);
+			return book != null && !"".equals(Pattern) && book.matches(Pattern);
 		}
 	}
 
