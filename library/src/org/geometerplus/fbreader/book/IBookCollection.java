@@ -21,7 +21,7 @@ package org.geometerplus.fbreader.book;
 
 import java.util.List;
 
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+//import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
@@ -59,7 +59,7 @@ public interface IBookCollection {
 	Book getRecentBook(int index);
 	void addBookToRecentList(Book book);
 
-	Book getBookByFile(ZLFile file);
+	//Book getBookByFile(ZLFile file);
 	Book getBookById(long id);
 	Book getBookByUid(UID uid);
 

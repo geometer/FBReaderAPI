@@ -24,7 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 import org.geometerplus.zlibrary.core.constants.XMLNamespaces;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+//import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 //import org.geometerplus.zlibrary.core.util.ZLColor;
 

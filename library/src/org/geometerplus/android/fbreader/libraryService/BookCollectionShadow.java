@@ -26,7 +26,7 @@ import android.content.*;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+//import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
@@ -189,6 +189,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
+/*
 	public synchronized Book getBookByFile(ZLFile file) {
 		if (myInterface == null) {
 			return null;
@@ -199,6 +200,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			return null;
 		}
 	}
+*/
 
 	public synchronized Book getBookById(long id) {
 		if (myInterface == null) {
