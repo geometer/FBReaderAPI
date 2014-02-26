@@ -22,7 +22,7 @@ package org.geometerplus.zlibrary.core.library;
 import java.util.List;
 
 import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
-import org.geometerplus.zlibrary.core.options.ZLStringOption;
+//import org.geometerplus.zlibrary.core.options.ZLStringOption;
 
 public abstract class ZLibrary {
 	public static ZLibrary Instance() {
@@ -38,9 +38,9 @@ public abstract class ZLibrary {
 	public static final String SCREEN_ORIENTATION_REVERSE_PORTRAIT = "reversePortrait";
 	public static final String SCREEN_ORIENTATION_REVERSE_LANDSCAPE = "reverseLandscape";
 
-	public final ZLStringOption getOrientationOption() {
-		return new ZLStringOption("LookNFeel", "Orientation", "system");
-	}
+	//public final ZLStringOption getOrientationOption() {
+	//	return new ZLStringOption("LookNFeel", "Orientation", "system");
+	//}
 
 	protected ZLibrary() {
 		ourImplementation = this;
