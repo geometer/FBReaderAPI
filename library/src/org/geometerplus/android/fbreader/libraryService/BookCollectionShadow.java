@@ -74,7 +74,10 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			}
 			context.bindService(
 				//new Intent(context, LibraryService.class),
-				new Intent("android.fbreader.action.LIBRARY_SERVICE"),
+				new Intent("android.fbreader.action.LIBRARY_SERVICE").setClassName(
+					"org.geometerplus.zlibrary.ui.android",
+					"org.geometerplus.android.fbreader.libraryService.LibraryService"
+				),
 				this,
 				Service.BIND_AUTO_CREATE
 			);
@@ -421,7 +424,6 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
-	/*
 	public synchronized HighlightingStyle getHighlightingStyle(int styleId) {
 		if (myInterface == null) {
 			return null;
@@ -453,7 +455,6 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			}
 		}
 	}
-	*/
 
 	public synchronized void rescan(String path) {
 		if (myInterface != null) {

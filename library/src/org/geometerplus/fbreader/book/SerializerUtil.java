@@ -97,7 +97,6 @@ public abstract class SerializerUtil {
 		return bookmarks;
 	}
 
-	/*
 	public static String serialize(HighlightingStyle style) {
 		return style != null ? defaultSerializer.serialize(style) : null;
 	}
@@ -124,5 +123,4 @@ public abstract class SerializerUtil {
 		}
 		return styles;
 	}
-	*/
 }

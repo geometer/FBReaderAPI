@@ -85,9 +85,9 @@ public interface IBookCollection {
 	void saveBookmark(Bookmark bookmark);
 	void deleteBookmark(Bookmark bookmark);
 
-	//HighlightingStyle getHighlightingStyle(int styleId);
-	//List<HighlightingStyle> highlightingStyles();
-	//void saveHighlightingStyle(HighlightingStyle style);
+	HighlightingStyle getHighlightingStyle(int styleId);
+	List<HighlightingStyle> highlightingStyles();
+	void saveHighlightingStyle(HighlightingStyle style);
 
 	void rescan(String path);
 }

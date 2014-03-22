@@ -30,7 +30,7 @@ import android.util.Xml;
 import org.geometerplus.zlibrary.core.constants.XMLNamespaces;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.util.RationalNumber;
-//import org.geometerplus.zlibrary.core.util.ZLColor;
+import org.geometerplus.zlibrary.core.util.ZLColor;
 
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
@@ -315,7 +315,6 @@ public class XMLSerializer extends AbstractSerializer {
 		}
 	}
 
-	/*
 	@Override
 	public String serialize(HighlightingStyle style) {
 		final StringBuilder buffer = new StringBuilder();
@@ -340,7 +339,6 @@ public class XMLSerializer extends AbstractSerializer {
 			return null;
 		}
 	}
-	*/
 
 	private static DateFormat ourDateFormatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.FULL, Locale.ENGLISH);
 	private static String formatDate(Date date) {
@@ -990,7 +988,6 @@ public class XMLSerializer extends AbstractSerializer {
 		}
 	}
 
-	/*
 	private static final class StyleDeserializer extends DefaultHandler {
 		private HighlightingStyle myStyle;
 
@@ -1017,5 +1014,4 @@ public class XMLSerializer extends AbstractSerializer {
 			}
 		}
 	}
-	*/
 }
