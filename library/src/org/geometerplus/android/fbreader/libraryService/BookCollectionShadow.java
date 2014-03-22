@@ -74,10 +74,8 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			}
 			context.bindService(
 				//new Intent(context, LibraryService.class),
-				new Intent("android.fbreader.action.LIBRARY_SERVICE").setClassName(
-					"org.geometerplus.zlibrary.ui.android",
-					"org.geometerplus.android.fbreader.libraryService.LibraryService"
-				),
+				new Intent("android.fbreader.action.LIBRARY_SERVICE")
+					.setPackage("org.geometerplus.zlibrary.ui.android"),
 				this,
 				Service.BIND_AUTO_CREATE
 			);
