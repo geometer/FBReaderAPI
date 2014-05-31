@@ -91,4 +91,5 @@ public interface IBookCollection {
 
 	void rescan(String path);
 	boolean isTransfer();
+	boolean getCover(Book book);
 }

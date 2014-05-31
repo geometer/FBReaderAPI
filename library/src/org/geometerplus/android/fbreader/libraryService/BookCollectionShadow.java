@@ -390,6 +390,11 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 	}
 	
 	@Override
+	public synchronized boolean getCover(Book book) {
+		return false;
+	}
+	
+	@Override
 	public boolean isTransfer() {
 		return false;
 	}
