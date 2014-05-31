@@ -23,18 +23,19 @@ import java.util.*;
 
 import android.app.Service;
 import android.content.*;
+import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.RemoteException;
 
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 //import org.geometerplus.zlibrary.core.options.Config;
 
+
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
 //import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.*;
-
 import org.geometerplus.android.fbreader.api.TextPosition;
 
 public class BookCollectionShadow extends AbstractBookCollection implements ServiceConnection {
@@ -390,8 +391,8 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 	}
 	
 	@Override
-	public synchronized boolean getCover(Book book) {
-		return false;
+	public synchronized Bitmap getCover(Book book) {
+		return null;
 	}
 	
 	@Override

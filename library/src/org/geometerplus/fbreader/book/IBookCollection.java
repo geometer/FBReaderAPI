@@ -23,7 +23,10 @@ import java.util.List;
 
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
+
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
+
+import android.graphics.Bitmap;
 
 public interface IBookCollection {
 	public enum Status {
@@ -91,5 +94,5 @@ public interface IBookCollection {
 
 	void rescan(String path);
 	boolean isTransfer();
-	boolean getCover(Book book);
+	Bitmap getCover(Book book);
 }
