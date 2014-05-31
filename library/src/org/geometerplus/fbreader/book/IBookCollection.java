@@ -23,7 +23,9 @@ import java.util.List;
 
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
+
 import android.graphics.Bitmap;
+
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
 public interface IBookCollection {
@@ -92,5 +94,5 @@ public interface IBookCollection {
 
 	void rescan(String path);
 	boolean isTransfer();
-	boolean saveCover(Book book);
+	boolean saveCover(Book book, String url);
 }

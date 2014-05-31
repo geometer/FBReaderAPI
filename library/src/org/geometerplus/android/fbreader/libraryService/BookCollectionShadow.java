@@ -391,7 +391,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 	}
 	
 	@Override
-	public synchronized boolean saveCover(Book book) {
+	public synchronized boolean saveCover(Book book, String url) {
 		return false;
 	}
 
