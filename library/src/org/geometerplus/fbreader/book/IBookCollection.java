@@ -90,4 +90,5 @@ public interface IBookCollection {
 	void saveHighlightingStyle(HighlightingStyle style);
 
 	void rescan(String path);
+	boolean isTransfer();
 }

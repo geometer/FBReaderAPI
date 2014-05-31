@@ -388,6 +388,11 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean isTransfer() {
+		return false;
+	}
 
 	public synchronized List<Bookmark> bookmarks(BookmarkQuery query) {
 		if (myInterface == null) {
