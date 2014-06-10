@@ -390,12 +390,12 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			return false;
 		}
 	}
-	
+
 	@Override
 	public synchronized Bitmap getCover(Book book) {
 		return null;
 	}
-	
+
 	@Override
 	public boolean isTransfer() {
 		return false;
