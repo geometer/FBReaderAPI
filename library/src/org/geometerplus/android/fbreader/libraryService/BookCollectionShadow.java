@@ -30,12 +30,12 @@ import android.os.RemoteException;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 //import org.geometerplus.zlibrary.core.options.Config;
 
+
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
 //import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.*;
-
 import org.geometerplus.android.fbreader.api.TextPosition;
 
 public class BookCollectionShadow extends AbstractBookCollection implements ServiceConnection {
@@ -378,26 +378,16 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 	}
 
 	@Override
-	public synchronized Bitmap getCover(Book book) {
+	public synchronized Bitmap getCover(Book book, int width, int height) {
 		if (myInterface == null) {
 			return null;
 		}
 		try {
-			return myInterface.getCover(SerializerUtil.serialize(book));
+			return myInterface.getCover(SerializerUtil.serialize(book), width, height);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	@Override
-	public synchronized boolean saveCover(Book book, String url) {
-		return false;
-	}
-
-	@Override
-	public boolean isTransfer() {
-		return true;
 	}
 	
 	public synchronized List<Bookmark> bookmarks(BookmarkQuery query) {

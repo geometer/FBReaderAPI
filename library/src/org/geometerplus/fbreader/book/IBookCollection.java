@@ -82,7 +82,7 @@ public interface IBookCollection {
 	boolean isHyperlinkVisited(Book book, String linkId);
 	void markHyperlinkAsVisited(Book book, String linkId);
 
-	Bitmap getCover(Book book);
+	Bitmap getCover(Book book, int width, int height);
 	
 	List<Bookmark> bookmarks(BookmarkQuery query);
 	void saveBookmark(Bookmark bookmark);
@@ -93,6 +93,4 @@ public interface IBookCollection {
 	void saveHighlightingStyle(HighlightingStyle style);
 
 	void rescan(String path);
-	boolean isTransfer();
-	boolean saveCover(Book book, String url);
 }
