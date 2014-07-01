@@ -97,12 +97,16 @@ public class Book extends TitledEntity {
 			myTags = book.myTags != null ? new ArrayList<Tag>(book.myTags) : null;
 			myIsSaved = false;
 		}
-		if (!MiscUtil.equals(myLabels, book.myLabels)) {
+		if (!MiscUtil.listsEquals(myLabels, book.myLabels)) {
 			myLabels = book.myLabels != null ? new ArrayList<String>(book.myLabels) : null;
 			myIsSaved = false;
 		}
 		if (!MiscUtil.equals(mySeriesInfo, book.mySeriesInfo)) {
 			mySeriesInfo = book.mySeriesInfo;
+			myIsSaved = false;
+		}
+		if (!MiscUtil.listsEquals(myUids, book.myUids)) {
+			myUids = book.myUids != null ? new ArrayList<UID>(book.myUids) : null;
 			myIsSaved = false;
 		}
 		setProgress(book.myProgress);
@@ -219,14 +223,15 @@ public class Book extends TitledEntity {
 	}
 
 	public void addAuthor(String name, String sortKey) {
-		String strippedName = name;
-		strippedName.trim();
+		if (name == null) {
+			return;
+		}
+		String strippedName = name.trim();
 		if (strippedName.length() == 0) {
 			return;
 		}
 
-		String strippedKey = sortKey;
-		strippedKey.trim();
+		String strippedKey = sortKey.trim();
 		if (strippedKey.length() == 0) {
 			int index = strippedName.lastIndexOf(' ');
 			if (index == -1) {
@@ -249,6 +254,13 @@ public class Book extends TitledEntity {
 
 	@Override
 	public void setTitle(String title) {
+		if (title == null) {
+			return;
+		}
+		title = title.trim();
+		if (title.length() == 0) {
+			return;
+		}
 		if (!getTitle().equals(title)) {
 			super.setTitle(title);
 			myIsSaved = false;
@@ -427,7 +439,7 @@ public class Book extends TitledEntity {
 			myIsSaved = false;
 		}
 	}
-	
+
 	public void setProgressWithNoCheck(RationalNumber progress) {
 		myProgress = progress;
 	}
