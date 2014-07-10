@@ -550,25 +550,6 @@ public class Book extends TitledEntity {
 			}
 		}
 	}
-
-	synchronized ZLImage getCover() {
-		if (myCover == NULL_IMAGE) {
-			return null;
-		} else if (myCover != null) {
-			final ZLImage image = myCover.get();
-			if (image != null) {
-				return image;
-			}
-		}
-		ZLImage image = null;
-		try {
-			image = getPlugin().readCover(File);
-		} catch (BookReadingException e) {
-			// ignore
-		}
-		myCover = image != null ? new WeakReference<ZLImage>(image) : NULL_IMAGE;
-		return image;
-	}
 	*/
 
 	@Override
