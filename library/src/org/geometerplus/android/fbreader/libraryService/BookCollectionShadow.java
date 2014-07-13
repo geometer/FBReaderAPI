@@ -35,6 +35,7 @@ import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
 //import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.*;
+import org.geometerplus.android.fbreader.api.FBReaderIntents;
 import org.geometerplus.android.fbreader.api.TextPosition;
 
 public class BookCollectionShadow extends AbstractBookCollection implements ServiceConnection {
@@ -73,9 +74,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 				myOnBindActions.add(onBindAction);
 			}
 			context.bindService(
-				//new Intent(context, LibraryService.class),
-				new Intent("android.fbreader.action.LIBRARY_SERVICE")
-					.setPackage("org.geometerplus.zlibrary.ui.android"),
+				FBReaderIntents.serviceIntent(FBReaderIntents.Action.LIBRARY_SERVICE),
 				this,
 				Service.BIND_AUTO_CREATE
 			);
