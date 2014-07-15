@@ -28,11 +28,14 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 
+
+import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 //import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
+import org.geometerplus.zlibrary.ui.android.image.ZLBitmapImage;
 //import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.*;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
@@ -376,14 +379,13 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 	}
 
 	@Override
-	public synchronized Bitmap getCover(Book book, int maxWidth, int maxHeight) {
+	public synchronized ZLImage getCover(Book book, int maxWidth, int maxHeight) {
 		if (myInterface == null) {
 			return null;
 		}
 		try {
-			return myInterface.getCover(SerializerUtil.serialize(book), maxWidth, maxHeight);
+			return new ZLBitmapImage(myInterface.getCover(SerializerUtil.serialize(book), maxWidth, maxHeight));
 		} catch (RemoteException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}

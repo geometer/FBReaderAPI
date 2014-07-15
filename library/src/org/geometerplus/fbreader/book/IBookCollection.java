@@ -23,6 +23,8 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 
+
+import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
@@ -80,7 +82,7 @@ public interface IBookCollection {
 	boolean isHyperlinkVisited(Book book, String linkId);
 	void markHyperlinkAsVisited(Book book, String linkId);
 
-	Bitmap getCover(Book book, int maxWidth, int maxHeight);
+	ZLImage getCover(Book book, int maxWidth, int maxHeight);
 	
 	List<Bookmark> bookmarks(BookmarkQuery query);
 	void saveBookmark(Bookmark bookmark);
