@@ -27,15 +27,13 @@ import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-
-
 import org.geometerplus.zlibrary.core.image.ZLImage;
+import org.geometerplus.zlibrary.ui.android.image.ZLBitmapImage;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 //import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
-import org.geometerplus.zlibrary.ui.android.image.ZLBitmapImage;
 //import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.*;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
