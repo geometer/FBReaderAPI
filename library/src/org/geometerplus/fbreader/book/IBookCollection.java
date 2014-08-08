@@ -65,6 +65,7 @@ public interface IBookCollection {
 	//Book getBookByFile(ZLFile file);
 	Book getBookById(long id);
 	Book getBookByUid(UID uid);
+	Book getBookByHash(String hash);
 
 	List<String> labels();
 	List<Author> authors();
@@ -75,6 +76,8 @@ public interface IBookCollection {
 
 	boolean saveBook(Book book);
 	void removeBook(Book book, boolean deleteFromDisk);
+
+	String getHash(Book book);
 
 	ZLTextPosition getStoredPosition(long bookId);
 	void storePosition(long bookId, ZLTextPosition position);

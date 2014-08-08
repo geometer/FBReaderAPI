@@ -19,12 +19,10 @@
 
 package org.geometerplus.fbreader.book;
 
-import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.*;
 
 //import org.geometerplus.zlibrary.core.filesystem.*;
-//import org.geometerplus.zlibrary.core.image.ZLImage;
 import org.geometerplus.zlibrary.core.util.MiscUtil;
 import org.geometerplus.zlibrary.core.util.RationalNumber;
 
@@ -35,6 +33,10 @@ import org.geometerplus.fbreader.sort.TitledEntity;
 public class Book extends TitledEntity {
 	public static final String FAVORITE_LABEL = "favorite";
 	public static final String READ_LABEL = "read";
+	public static final String SYNCHRONIZED_LABEL = "sync-success";
+	public static final String SYNC_FAILURE_LABEL = "sync-failure";
+	public static final String SYNC_DELETED_LABEL = "sync-deleted";
+	public static final String SYNC_TOSYNC_LABEL = "sync-tosync";
 
 	public final String FileUrl;
 
@@ -52,9 +54,6 @@ public class Book extends TitledEntity {
 	public volatile boolean HasBookmark;
 
 	private volatile boolean myIsSaved;
-
-	//private static final WeakReference<ZLImage> NULL_IMAGE = new WeakReference<ZLImage>(null);
-	//private WeakReference<ZLImage> myCover;
 
 	Book(long id, String fileUrl, String title, String encoding, String language) {
 		super(title);
