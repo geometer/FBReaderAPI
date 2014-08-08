@@ -21,9 +21,6 @@ package org.geometerplus.fbreader.book;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
-
-
 import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
