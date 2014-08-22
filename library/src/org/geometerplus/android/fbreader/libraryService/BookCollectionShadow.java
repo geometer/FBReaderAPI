@@ -29,8 +29,10 @@ import android.os.RemoteException;
 import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 //import org.geometerplus.zlibrary.core.options.Config;
-import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
-import org.geometerplus.zlibrary.text.view.ZLTextPosition;
+//import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+//import org.geometerplus.zlibrary.core.options.Config;
+import org.geometerplus.zlibrary.text.view.*;
+import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition.WithTimestamp;
 import org.geometerplus.zlibrary.ui.android.image.ZLBitmapImage;
 
 //import org.geometerplus.fbreader.Paths;
@@ -347,7 +349,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
-	public synchronized ZLTextPosition getStoredPosition(long bookId) {
+	public synchronized ZLTextFixedPosition.WithTimestamp getStoredPosition(long bookId) {
 		if (myInterface == null) {
 			return null;
 		}
