@@ -32,7 +32,6 @@ import org.geometerplus.zlibrary.core.image.ZLImage;
 //import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 //import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.text.view.*;
-import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition.WithTimestamp;
 import org.geometerplus.zlibrary.ui.android.image.ZLBitmapImage;
 
 //import org.geometerplus.fbreader.Paths;
