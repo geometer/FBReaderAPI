@@ -337,14 +337,24 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		return Collections.emptyList();
 	}
 
-	public String getHash(Book book) {
+	public String getHash(Book book, boolean force) {
 		if (myInterface == null) {
 			return null;
 		}
 		try {
-			return myInterface.getHash(SerializerUtil.serialize(book));
+			return myInterface.getHash(SerializerUtil.serialize(book), force);
 		} catch (RemoteException e) {
 			return null;
+		}
+	}
+
+	public void setHash(Book book, String hash) {
+		if (myInterface == null) {
+			return;
+		}
+		try {
+			myInterface.setHash(SerializerUtil.serialize(book), hash);
+		} catch (RemoteException e) {
 		}
 	}
 
@@ -405,6 +415,30 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		try {
 			final boolean[] delayed = new boolean[1];
 			return new ZLBitmapImage(myInterface.getCover(SerializerUtil.serialize(book), maxWidth, maxHeight, delayed));
+		} catch (RemoteException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public String getCoverUrl(Book book) {
+		if (myInterface == null) {
+			return null;
+		}
+		try {
+			return myInterface.getCoverUrl(book.FileUrl.substring("file://".length()));
+		} catch (RemoteException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public String getDescription(Book book) {
+		if (myInterface == null) {
+			return null;
+		}
+		try {
+			return myInterface.getDescription(SerializerUtil.serialize(book));
 		} catch (RemoteException e) {
 			return null;
 		}
