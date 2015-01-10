@@ -75,7 +75,8 @@ public interface IBookCollection {
 	boolean saveBook(Book book);
 	void removeBook(Book book, boolean deleteFromDisk);
 
-	String getHash(Book book);
+	String getHash(Book book, boolean force);
+	void setHash(Book book, String hash);
 
 	ZLTextFixedPosition.WithTimestamp getStoredPosition(long bookId);
 	void storePosition(long bookId, ZLTextPosition position);
@@ -84,6 +85,7 @@ public interface IBookCollection {
 	void markHyperlinkAsVisited(Book book, String linkId);
 
 	ZLImage getCover(Book book, int maxWidth, int maxHeight);
+	String getCoverUrl(Book book);
 	
 	List<Bookmark> bookmarks(BookmarkQuery query);
 	void saveBookmark(Bookmark bookmark);
