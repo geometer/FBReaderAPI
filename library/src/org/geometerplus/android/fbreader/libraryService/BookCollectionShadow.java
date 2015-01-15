@@ -76,7 +76,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 			context.bindService(
 				FBReaderIntents.internalIntent(FBReaderIntents.Action.LIBRARY_SERVICE),
 				this,
-				Service.BIND_AUTO_CREATE
+				LibraryService.BIND_AUTO_CREATE
 			);
 			myContext = context;
 		}
@@ -154,12 +154,23 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
-	public synchronized List<Book> recentBooks() {
+	public synchronized List<Book> recentlyAddedBooks(int count) {
 		if (myInterface == null) {
 			return Collections.emptyList();
 		}
 		try {
-			return SerializerUtil.deserializeBookList(myInterface.recentBooks());
+			return SerializerUtil.deserializeBookList(myInterface.recentlyAddedBooks(count));
+		} catch (RemoteException e) {
+			return Collections.emptyList();
+		}
+	}
+
+	public synchronized List<Book> recentlyOpenedBooks(int count) {
+		if (myInterface == null) {
+			return Collections.emptyList();
+		}
+		try {
+			return SerializerUtil.deserializeBookList(myInterface.recentlyOpenedBooks(count));
 		} catch (RemoteException e) {
 			return Collections.emptyList();
 		}
@@ -309,6 +320,17 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
+	public synchronized boolean canRemoveBook(Book book, boolean deleteFromDisk) {
+		if (myInterface == null) {
+			return false;
+		}
+		try {
+			return myInterface.canRemoveBook(SerializerUtil.serialize(book), deleteFromDisk);
+		} catch (RemoteException e) {
+			return false;
+		}
+	}
+
 	public synchronized void removeBook(Book book, boolean deleteFromDisk) {
 		if (myInterface != null) {
 			try {
@@ -318,10 +340,19 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
-	public synchronized void addBookToRecentList(Book book) {
+	public synchronized void addToRecentlyOpened(Book book) {
 		if (myInterface != null) {
 			try {
-				myInterface.addBookToRecentList(SerializerUtil.serialize(book));
+				myInterface.addToRecentlyOpened(SerializerUtil.serialize(book));
+			} catch (RemoteException e) {
+			}
+		}
+	}
+
+	public synchronized void removeFromRecentlyOpened(Book book) {
+		if (myInterface != null) {
+			try {
+				myInterface.removeFromRecentlyOpened(SerializerUtil.serialize(book));
 			} catch (RemoteException e) {
 			}
 		}
@@ -537,7 +568,7 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 	}
 }
 
-class LibraryService {
+abstract class LibraryService extends Service {
 	static final String BOOK_EVENT_ACTION = "fbreader.library_service.book_event";
 	static final String BUILD_EVENT_ACTION = "fbreader.library_service.build_event";
 }

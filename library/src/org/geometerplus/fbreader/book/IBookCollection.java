@@ -56,9 +56,11 @@ public interface IBookCollection {
 	boolean hasBooks(Filter filter);
 	List<String> titles(BookQuery query);
 
-	List<Book> recentBooks();
+	List<Book> recentlyOpenedBooks(int count);
+	List<Book> recentlyAddedBooks(int count);
 	Book getRecentBook(int index);
-	void addBookToRecentList(Book book);
+	void addToRecentlyOpened(Book book);
+	void removeFromRecentlyOpened(Book book);
 
 	//Book getBookByFile(ZLFile file);
 	Book getBookById(long id);
@@ -73,6 +75,7 @@ public interface IBookCollection {
 	List<String> firstTitleLetters();
 
 	boolean saveBook(Book book);
+	boolean canRemoveBook(Book book, boolean deleteFromDisk);
 	void removeBook(Book book, boolean deleteFromDisk);
 
 	String getHash(Book book, boolean force);
