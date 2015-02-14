@@ -62,7 +62,7 @@ public interface IBookCollection {
 	void addToRecentlyOpened(Book book);
 	void removeFromRecentlyOpened(Book book);
 
-	//Book getBookByFile(ZLFile file);
+	Book getBookByFile(String path);
 	Book getBookById(long id);
 	Book getBookByUid(UID uid);
 	Book getBookByHash(String hash);
@@ -98,6 +98,14 @@ public interface IBookCollection {
 	HighlightingStyle getHighlightingStyle(int styleId);
 	List<HighlightingStyle> highlightingStyles();
 	void saveHighlightingStyle(HighlightingStyle style);
+
+	public class FormatDescriptor {
+		public String Id;
+		public String Name;
+		public boolean IsActive;
+	}
+	List<FormatDescriptor> formats();
+	void setActiveFormats(List<String> formatIds);
 
 	void rescan(String path);
 }
