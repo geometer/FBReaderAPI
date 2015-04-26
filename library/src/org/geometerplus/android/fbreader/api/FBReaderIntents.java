@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2014 Geometer Plus <contact@geometerplus.com>
+ * Copyright (C) 2009-2015 FBReader.ORG Limited <contact@fbreader.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ public abstract class FBReaderIntents {
 		String CLOSE                    = "android.fbreader.action.CLOSE";
 		String PLUGIN_CRASH             = "android.fbreader.action.PLUGIN_CRASH";
 		String EDIT_STYLES              = "android.fbreader.action.EDIT_STYLES";
+		String EDIT_BOOKMARK            = "android.fbreader.action.EDIT_BOOKMARK";
 		String SWITCH_YOTA_SCREEN       = "android.fbreader.action.SWITCH_YOTA_SCREEN";
 	}
 
