@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2014 Geometer Plus <contact@geometerplus.com>
+ * Copyright (C) 2007-2015 FBReader.ORG Limited <contact@fbreader.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -90,14 +90,18 @@ public interface IBookCollection {
 	ZLImage getCover(Book book, int maxWidth, int maxHeight);
 	String getCoverUrl(Book book);
 	String getDescription(Book book);
-	
+
 	List<Bookmark> bookmarks(BookmarkQuery query);
 	void saveBookmark(Bookmark bookmark);
 	void deleteBookmark(Bookmark bookmark);
+	List<String> deletedBookmarkUids();
+	void purgeBookmarks(List<String> uids);
 
 	HighlightingStyle getHighlightingStyle(int styleId);
 	List<HighlightingStyle> highlightingStyles();
 	void saveHighlightingStyle(HighlightingStyle style);
+	int getDefaultHighlightingStyleId();
+	void setDefaultHighlightingStyleId(int styleId);
 
 	public class FormatDescriptor {
 		public String Id;

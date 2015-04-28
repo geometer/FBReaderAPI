@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2014 Geometer Plus <contact@geometerplus.com>
+ * Copyright (C) 2007-2015 FBReader.ORG Limited <contact@fbreader.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -484,6 +484,23 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		}
 	}
 
+	public synchronized List<String> deletedBookmarkUids() {
+		return listCall(new ListCallable<String>() {
+			public List<String> call() throws RemoteException {
+				return myInterface.deletedBookmarkUids();
+			}
+		});
+	}
+
+	public void purgeBookmarks(List<String> uids) {
+		if (myInterface != null) {
+			try {
+				myInterface.purgeBookmarks(uids);
+			} catch (RemoteException e) {
+			}
+		}
+	}
+
 	public synchronized HighlightingStyle getHighlightingStyle(int styleId) {
 		if (myInterface == null) {
 			return null;
@@ -507,6 +524,27 @@ public class BookCollectionShadow extends AbstractBookCollection implements Serv
 		if (myInterface != null) {
 			try {
 				myInterface.saveHighlightingStyle(SerializerUtil.serialize(style));
+			} catch (RemoteException e) {
+				// ignore
+			}
+		}
+	}
+
+	public int getDefaultHighlightingStyleId() {
+		if (myInterface == null) {
+			return 1;
+		}
+		try {
+			return myInterface.getDefaultHighlightingStyleId();
+		} catch (RemoteException e) {
+			return 1;
+		}
+	}
+
+	public void setDefaultHighlightingStyleId(int styleId) {
+		if (myInterface != null) {
+			try {
+				myInterface.setDefaultHighlightingStyleId(styleId);
 			} catch (RemoteException e) {
 				// ignore
 			}

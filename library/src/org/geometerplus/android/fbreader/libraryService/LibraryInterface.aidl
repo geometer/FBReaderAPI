@@ -76,4 +76,10 @@ interface LibraryInterface {
 
 	List<String> formats();
 	boolean setActiveFormats(in List<String> formats);
+
+	List<String> deletedBookmarkUids();
+	void purgeBookmarks(in List<String> uids);
+
+	int getDefaultHighlightingStyleId();
+	void setDefaultHighlightingStyleId(in int styleId);
 }
