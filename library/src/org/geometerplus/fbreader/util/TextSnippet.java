@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 FBReader.ORG Limited <contact@fbreader.org>
+ * Copyright (C) 2009-2015 FBReader.ORG Limited <contact@fbreader.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,25 +17,12 @@
  * 02110-1301, USA.
  */
 
-package org.geometerplus.zlibrary.core.util;
+package org.geometerplus.fbreader.util;
 
-public enum ZLBoolean3 {
-	B3_FALSE("false"),
-	B3_TRUE("true"),
-	B3_UNDEFINED("undefined");
+import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
-	public final String Name;
-
-	private ZLBoolean3(String name) {
-		Name = name;
-	}
-
-	public static ZLBoolean3 getByName(String name) {
-		for (ZLBoolean3 b3 : values()) {
-			if (b3.Name.equals(name)) {
-				return b3;
-			}
-		}
-		return B3_UNDEFINED;
-	}
+public interface TextSnippet {
+	ZLTextPosition getStart();
+	ZLTextPosition getEnd();
+	String getText();
 }

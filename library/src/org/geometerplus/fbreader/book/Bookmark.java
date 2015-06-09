@@ -21,7 +21,10 @@ package org.geometerplus.fbreader.book;
 
 import java.util.*;
 
+import org.geometerplus.zlibrary.core.util.MiscUtil;
 import org.geometerplus.zlibrary.text.view.*;
+
+import org.geometerplus.fbreader.util.TextSnippet;
 
 public final class Bookmark extends ZLTextFixedPosition {
 	public enum DateType {
@@ -39,6 +42,7 @@ public final class Bookmark extends ZLTextFixedPosition {
 	public final String BookTitle;
 	private String myText;
 	private String myOriginalText;
+
 	public final long CreationTimestamp;
 	private Long myModificationTimestamp;
 	private Long myAccessTimestamp;
@@ -49,7 +53,28 @@ public final class Bookmark extends ZLTextFixedPosition {
 	public final String ModelId;
 	public final boolean IsVisible;
 
-	Bookmark(
+	// used for migration only
+	private Bookmark(long bookId, Bookmark original) {
+		super(original);
+		myId = -1;
+		Uid = newUUID();
+		BookId = bookId;
+		BookTitle = original.BookTitle;
+		myText = original.myText;
+		myOriginalText = original.myOriginalText;
+		CreationTimestamp = original.CreationTimestamp;
+		myModificationTimestamp = original.myModificationTimestamp;
+		myAccessTimestamp = original.myAccessTimestamp;
+		myEnd = original.myEnd;
+		myLength = original.myLength;
+		myStyleId = original.myStyleId;
+		ModelId = original.ModelId;
+		IsVisible = original.IsVisible;
+	}
+
+	// create java object for existing bookmark
+	// uid parameter can be null when comes from old format plugin!
+	public Bookmark(
 		long id, String uid, String versionUid,
 		long bookId, String bookTitle, String text, String originalText,
 		long creationTimestamp, Long modificationTimestamp, Long accessTimestamp,
@@ -84,64 +109,22 @@ public final class Bookmark extends ZLTextFixedPosition {
 		myStyleId = styleId;
 	}
 
-	public Bookmark(IBookCollection collection, Book book, String modelId, ZLTextPosition start, ZLTextPosition end, String text, boolean visible) {
-		super(start);
+	// creates new bookmark
+	public Bookmark(IBookCollection collection, Book book, String modelId, TextSnippet snippet, boolean visible) {
+		super(snippet.getStart());
 
 		myId = -1;
 		Uid = newUUID();
-
 		BookId = book.getId();
 		BookTitle = book.getTitle();
-		myText = text;
+		myText = snippet.getText();
 		myOriginalText = null;
 		CreationTimestamp = System.currentTimeMillis();
 		ModelId = modelId;
 		IsVisible = visible;
-		myEnd = new ZLTextFixedPosition(end);
+		myEnd = new ZLTextFixedPosition(snippet.getEnd());
 		myStyleId = collection.getDefaultHighlightingStyleId();
 	}
-
-	/*
-	public void findEnd(ZLTextView view) {
-		if (myEnd != null) {
-			return;
-		}
-		ZLTextWordCursor cursor = view.getStartCursor();
-		if (cursor.isNull()) {
-			cursor = view.getEndCursor();
-		}
-		if (cursor.isNull()) {
-			return;
-		}
-		cursor = new ZLTextWordCursor(cursor);
-		cursor.moveTo(this);
-
-		ZLTextWord word = null;
-mainLoop:
-		for (int count = myLength; count > 0; cursor.nextWord()) {
-			while (cursor.isEndOfParagraph()) {
-				if (!cursor.nextParagraph()) {
-					break mainLoop;
-				}
-			}
-			final ZLTextElement element = cursor.getElement();
-			if (element instanceof ZLTextWord) {
-				if (word != null) {
-					--count;
-				}
-				word = (ZLTextWord)element;
-				count -= word.Length;
-			}
-		}
-		if (word != null) {
-			myEnd = new ZLTextFixedPosition(
-				cursor.getParagraphIndex(),
-				cursor.getElementIndex(),
-				word.Length
-			);
-		}
-	}
-	*/
 
 	public long getId() {
 		return myId;
@@ -215,6 +198,10 @@ mainLoop:
 		return myEnd;
 	}
 
+	void setEnd(int paragraphsIndex, int elementIndex, int charIndex) {
+		myEnd = new ZLTextFixedPosition(paragraphsIndex, elementIndex, charIndex);
+	}
+
 	public int getLength() {
 		return myLength;
 	}
@@ -242,6 +229,20 @@ mainLoop:
 		if (other != null) {
 			myId = other.myId;
 		}
+	}
+
+	Bookmark transferToBook(AbstractBook book) {
+		final long bookId = book.getId();
+		return bookId != -1 ? new Bookmark(bookId, this) : null;
+	}
+
+	// not equals, we do not compare ids
+	boolean sameAs(Bookmark other) {
+		return
+			ParagraphIndex == other.ParagraphIndex &&
+			ElementIndex == other.ElementIndex &&
+			CharIndex == other.CharIndex &&
+			MiscUtil.equals(myText, other.myText);
 	}
 
 	private static String newUUID() {

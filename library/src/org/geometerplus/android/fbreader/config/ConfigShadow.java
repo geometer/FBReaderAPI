@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2014 Geometer Plus <contact@geometerplus.com>
+ * Copyright (C) 2007-2015 FBReader.ORG Limited <contact@fbreader.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 
 public final class ConfigShadow extends Config implements ServiceConnection {
-	static final String OPTION_CHANGE_EVENT_ACTION = "fbreader.config_service.option_change_event";
+	static final String OPTION_CHANGE_EVENT_ACTION = "com.fbreader.config_service.option_change_event";
 
 	private final Context myContext;
 	private volatile ConfigInterface myInterface;
