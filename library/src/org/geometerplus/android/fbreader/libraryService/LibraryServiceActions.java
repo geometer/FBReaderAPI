@@ -20,7 +20,7 @@
 package org.geometerplus.android.fbreader.libraryService;
 
 interface LibraryServiceActions {
-	String BOOK_EVENT_ACTION = "com.fbreader.library_service.book_event";
-	String BUILD_EVENT_ACTION = "com.fbreader.library_service.build_event";
-	String COVER_READY_ACTION = "com.fbreader.library_service.cover_ready";
+	String BOOK_EVENT_ACTION = "fbreader.library_service.book_event";
+	String BUILD_EVENT_ACTION = "fbreader.library_service.build_event";
+	String COVER_READY_ACTION = "fbreader.library_service.cover_ready";
 }

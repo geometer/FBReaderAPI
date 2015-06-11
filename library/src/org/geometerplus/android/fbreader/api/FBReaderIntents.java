@@ -24,35 +24,35 @@ import android.content.Intent;
 import org.geometerplus.fbreader.book.*;
 
 public abstract class FBReaderIntents {
-	public static final String DEFAULT_PACKAGE = "com.fbreader";
+	public static final String DEFAULT_PACKAGE = "org.geometerplus.zlibrary.ui.android";
 
 	public interface Action {
-		String API                              = "com.fbreader.action.API";
-		String API_CALLBACK                     = "com.fbreader.action.API_CALLBACK";
-		String VIEW                             = "com.fbreader.action.VIEW";
-		String CANCEL_MENU                      = "com.fbreader.action.CANCEL_MENU";
-		String CONFIG_SERVICE                   = "com.fbreader.action.CONFIG_SERVICE";
-		String LIBRARY_SERVICE                  = "com.fbreader.action.LIBRARY_SERVICE";
-		String BOOK_INFO                        = "com.fbreader.action.BOOK_INFO";
-		String LIBRARY                          = "com.fbreader.action.LIBRARY";
-		String EXTERNAL_LIBRARY                 = "com.fbreader.action.EXTERNAL_LIBRARY";
-		String BOOKMARKS                        = "com.fbreader.action.BOOKMARKS";
-		String EXTERNAL_BOOKMARKS               = "com.fbreader.action.EXTERNAL_BOOKMARKS";
-		String PREFERENCES                      = "com.fbreader.action.PREFERENCES";
-		String NETWORK_LIBRARY                  = "com.fbreader.action.NETWORK_LIBRARY";
-		String OPEN_NETWORK_CATALOG             = "com.fbreader.action.OPEN_NETWORK_CATALOG";
-		String ERROR                            = "com.fbreader.action.ERROR";
-		String CRASH                            = "com.fbreader.action.CRASH";
-		String PLUGIN                           = "com.fbreader.action.PLUGIN";
-		String CLOSE                            = "com.fbreader.action.CLOSE";
-		String PLUGIN_CRASH                     = "com.fbreader.action.PLUGIN_CRASH";
-		String EDIT_STYLES                      = "com.fbreader.action.EDIT_STYLES";
-		String EDIT_BOOKMARK                    = "com.fbreader.action.EDIT_BOOKMARK";
-		String SWITCH_YOTA_SCREEN               = "com.fbreader.action.SWITCH_YOTA_SCREEN";
+		String API                              = "android.fbreader.action.API";
+		String API_CALLBACK                     = "android.fbreader.action.API_CALLBACK";
+		String VIEW                             = "android.fbreader.action.VIEW";
+		String CANCEL_MENU                      = "android.fbreader.action.CANCEL_MENU";
+		String CONFIG_SERVICE                   = "android.fbreader.action.CONFIG_SERVICE";
+		String LIBRARY_SERVICE                  = "android.fbreader.action.LIBRARY_SERVICE";
+		String BOOK_INFO                        = "android.fbreader.action.BOOK_INFO";
+		String LIBRARY                          = "android.fbreader.action.LIBRARY";
+		String EXTERNAL_LIBRARY                 = "android.fbreader.action.EXTERNAL_LIBRARY";
+		String BOOKMARKS                        = "android.fbreader.action.BOOKMARKS";
+		String EXTERNAL_BOOKMARKS               = "android.fbreader.action.EXTERNAL_BOOKMARKS";
+		String PREFERENCES                      = "android.fbreader.action.PREFERENCES";
+		String NETWORK_LIBRARY                  = "android.fbreader.action.NETWORK_LIBRARY";
+		String OPEN_NETWORK_CATALOG             = "android.fbreader.action.OPEN_NETWORK_CATALOG";
+		String ERROR                            = "android.fbreader.action.ERROR";
+		String CRASH                            = "android.fbreader.action.CRASH";
+		String PLUGIN                           = "android.fbreader.action.PLUGIN";
+		String CLOSE                            = "android.fbreader.action.CLOSE";
+		String PLUGIN_CRASH                     = "android.fbreader.action.PLUGIN_CRASH";
+		String EDIT_STYLES                      = "android.fbreader.action.EDIT_STYLES";
+		String EDIT_BOOKMARK                    = "android.fbreader.action.EDIT_BOOKMARK";
+		String SWITCH_YOTA_SCREEN               = "android.fbreader.action.SWITCH_YOTA_SCREEN";
                                             
-		String PLUGIN_VIEW						= "com.fbreader.action.plugin.VIEW";
-		String PLUGIN_KILL						= "com.fbreader.action.plugin.KILL";
-		String PLUGIN_CONNECT_COVER_SERVICE		= "com.fbreader.action.plugin.CONNECT_COVER_SERVICE";
+		String PLUGIN_VIEW						= "android.fbreader.action.plugin.VIEW";
+		String PLUGIN_KILL						= "android.fbreader.action.plugin.KILL";
+		String PLUGIN_CONNECT_COVER_SERVICE		= "android.fbreader.action.plugin.CONNECT_COVER_SERVICE";
 	}
 
 	public interface Key {

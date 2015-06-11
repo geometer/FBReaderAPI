@@ -31,7 +31,7 @@ import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 
 public final class ConfigShadow extends Config implements ServiceConnection {
-	static final String OPTION_CHANGE_EVENT_ACTION = "com.fbreader.config_service.option_change_event";
+	static final String OPTION_CHANGE_EVENT_ACTION = "fbreader.config_service.option_change_event";
 
 	private final Context myContext;
 	private volatile ConfigInterface myInterface;
